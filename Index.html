@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encuesta de Clima Laboral — Clínica de Fracturas Vita S.A.S</title>
+<style>
+  :root {
+    --azul-oscuro: #0D3B6E;
+    --azul-medio: #185FA5;
+    --azul-vivo: #1A7CC4;
+    --azul-claro: #E6F1FB;
+    --azul-borde: #B5D4F4;
+    --azul-texto: #0C447C;
+    --gris-texto: #374151;
+    --gris-claro: #F8FAFC;
+    --gris-borde: #E2E8F0;
+    --blanco: #FFFFFF;
+    --gris-n: #6B7280;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #EEF4FB;
+    color: var(--gris-texto);
+    min-height: 100vh;
+  }
+  .page-wrap { max-width: 820px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+
+  /* HEADER */
+  .header {
+    background: var(--blanco);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(24,95,165,0.10);
+    margin-bottom: 1.5rem;
+  }
+  .header-top {
+    background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul-medio) 100%);
+    padding: 2rem 2.5rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .header-logo-wrap {
+    background: transparent;
+    border-radius: 12px;
+    padding: 10px 16px;
+    flex-shrink: 0;
+  }
+  .header-logo-wrap img { height: 64px; display: block; }
+  .header-titles { flex: 1; min-width: 220px; }
+  .header-titles h1 {
+    color: var(--blanco);
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 0.3rem;
+  }
+  .header-titles .sub {
+    color: #93C5FD;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+  }
+  .norm-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .norm-pill {
+    background: rgba(255,255,255,0.13);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 0.7rem;
+    color: #BFDBFE;
+  }
+  .header-body { padding: 1.2rem 2.5rem 1.5rem; }
+  .obj-row {
+    background: var(--azul-claro);
+    border-left: 4px solid var(--azul-medio);
+    border-radius: 0 8px 8px 0;
+    padding: 0.85rem 1.1rem;
+    margin-bottom: 1rem;
+  }
+  .obj-row strong { color: var(--azul-texto); font-size: 0.82rem; display: block; margin-bottom: 3px; }
+  .obj-row p { color: var(--azul-texto); font-size: 0.88rem; line-height: 1.55; }
+  .confid-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #DCFCE7;
+    border: 1px solid #86EFAC;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.75rem;
+    color: #065F46;
+    font-weight: 600;
+  }
+  .confid-note::before { content: "🔒"; font-size: 12px; }
+
+  /* BLOQUES */
+  .block {
+    background: var(--blanco);
+    border-radius: 12px;
+    padding: 1.3rem 1.6rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 4px rgba(24,95,165,0.07);
+  }
+  .block-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--azul-medio);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .block-title::before {
+    content: "";
+    display: block;
+    width: 4px; height: 16px;
+    background: var(--azul-medio);
+    border-radius: 2px;
+  }
+
+  .char-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .char-field label {
+    display: block;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--gris-n);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .char-field select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1.5px solid var(--gris-borde);
+    border-radius: 8px;
+    font-size: 0.88rem;
+    color: var(--gris-texto);
+    background: var(--gris-claro);
+  }
+
+  .instruc-list { list-style: none; }
+  .instruc-list li {
+    font-size: 0.88rem;
+    color: var(--gris-texto);
+    padding: 5px 0 5px 22px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .instruc-list li::before {
+    content: "›";
+    position: absolute; left: 6px;
+    color: var(--azul-medio);
+    font-weight: 700;
+  }
+
+  .scale-bar { display: flex; border-radius: 10px; overflow: hidden; border: 1px solid var(--gris-borde); }
+  .scale-item { flex: 1; padding: 10px 6px; text-align: center; font-size: 0.72rem; font-weight: 600; }
+  .scale-item .num { font-size: 1.1rem; display: block; margin-bottom: 3px; }
+  .s1 { background: #FEE2E2; color: #991B1B; }
+  .s2 { background: #FEF3C7; color: #92400E; }
+  .s3 { background: #F3F4F6; color: #374151; }
+  .s4 { background: #DBEAFE; color: #1E40AF; }
+  .s5 { background: #1D4ED8; color: #fff; }
+
+  .section-hdr {
+    display: flex; align-items: center; gap: 12px; padding: 0.8rem 1.2rem;
+    border-radius: 10px; margin: 1.5rem 0 0.75rem;
+  }
+  .section-hdr .num {
+    width: 30px; height: 30px; border-radius: 50%; display: flex;
+    align-items: center; justify-content: center; font-size: 0.8rem;
+    font-weight: 700; color: var(--blanco);
+  }
+  .section-hdr .info .title { font-size: 0.92rem; font-weight: 700; }
+  .section-hdr .info .ref { font-size: 0.72rem; margin-top: 2px; font-style: italic; }
+
+  .s-azul { background: #EFF6FF; } .s-azul .num { background: #1D4ED8; } .s-azul .title { color: #1E3A8A; } .s-azul .ref { color: #3B82F6; }
+  .s-celeste { background: #E0F2FE; } .s-celeste .num { background: #0284C7; } .s-celeste .title { color: #075985; } .s-celeste .ref { color: #0284C7; }
+  .s-indigo { background: #EEF2FF; } .s-indigo .num { background: #4338CA; } .s-indigo .title { color: #312E81; } .s-indigo .ref { color: #4F46E5; }
+  .s-marino { background: #F0F9FF; } .s-marino .num { background: #0369A1; } .s-marino .title { color: #0C4A6E; } .s-marino .ref { color: #0369A1; }
+
+  .q-card {
+    background: var(--blanco); border: 1.5px solid var(--gris-borde);
+    border-radius: 12px; margin-bottom: 10px; overflow: hidden;
+  }
+  .q-card.answered { border-color: var(--azul-borde); }
+  .q-top { padding: 1rem 1.2rem 0.6rem; border-left: 4px solid var(--azul-medio); }
+  .q-num-label { font-size: 0.72rem; font-weight: 700; color: var(--gris-n); text-transform: uppercase; }
+  .q-norm-ref { font-size: 0.7rem; color: #93C5FD; font-style: italic; margin-bottom: 4px; }
+  .q-text { font-size: 0.93rem; color: var(--gris-texto); line-height: 1.55; }
+  
+  .likert-row { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--gris-borde); }
+  .likert-opt { border-right: 1px solid var(--gris-borde); }
+  .likert-opt:last-child { border-right: none; }
+  .likert-opt input[type=radio] { display: none; }
+  .likert-opt label {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    padding: 10px 4px; cursor: pointer; height: 100%;
+  }
+  .likert-opt label:hover, .likert-opt input:checked + label { background: var(--azul-claro); }
+  .lv { font-size: 1.1rem; font-weight: 700; color: var(--gris-n); }
+  .radio-circle { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--gris-borde); }
+  .likert-opt input:checked + label .radio-circle { background: var(--azul-medio); border-color: var(--azul-medio); }
+
+  .open-card {
+    background: var(--blanco); border: 1.5px solid var(--gris-borde);
+    border-left: 4px solid #475569; border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: 10px;
+  }
+  .open-card textarea {
+    width: 100%; margin-top: 10px; padding: 10px 12px; border: 1.5px solid var(--gris-borde);
+    border-radius: 8px; font-size: 0.88rem; font-family: inherit; resize: vertical; min-height: 80px;
+    background: var(--gris-claro); color: var(--gris-texto);
+  }
+
+  .submit-wrap { margin-top: 2rem; }
+  .progress-bar-wrap { background: var(--gris-borde); border-radius: 999px; height: 6px; margin-bottom: 1rem; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--azul-medio), var(--azul-vivo)); width: 0%; transition: width 0.4s; }
+  .progress-label { font-size: 0.78rem; color: var(--gris-n); margin-bottom: 0.5rem; text-align: right; }
+  #submit-btn {
+    width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--azul-oscuro), var(--azul-medio));
+    color: var(--blanco); border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer;
+  }
+  #submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  #msg-ok, #msg-err { display: none; padding: 1rem 1.2rem; border-radius: 10px; margin-top: 1rem; font-size: 0.9rem; }
+  #msg-ok { background: #D1FAE5; color: #065F46; border: 1px solid #6EE7B7; }
+  #msg-err { background: #FEE2E2; color: #991B1B; border: 1px solid #FCA5A5; }
+
+  .footer { text-align: center; margin-top: 2rem; font-size: 0.73rem; color: #94A3B8; line-height: 1.7; }
+  .toast {
+    position: fixed; bottom: 20px; right: 20px; background: var(--azul-oscuro);
+    color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 0.82rem; opacity: 0; transition: opacity 0.3s; z-index: 999;
+  }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="header">
+    <div class="header-top">
+      <div class="header-logo-wrap">
+        <img src="https://clinicavita.com.co/img/logo1.png" alt="Clínica de Fracturas Vita S.A.S">
+      </div>
+      <div class="header-titles">
+        <h1>Encuesta de Clima Laboral y Factores de Riesgo Psicosocial</h1>
+        <p class="sub">Clínica de Fracturas Vita S.A.S — Trabajadores y Contratistas</p>
+        <div class="norm-pills">
+          <span class="norm-pill">Res. 2646/2008</span>
+          <span class="norm-pill">Ley 1010/2006</span>
+          <span class="norm-pill">Res. 652 y 1356/2012</span>
+          <span class="norm-pill">Decreto 1072/2015</span>
+          <span class="norm-pill">SG-SST</span>
+        </div>
+      </div>
+    </div>
+    <div class="header-body">
+      <div class="obj-row">
+        <strong>Objetivo</strong>
+        <p>Identificar y evaluar los factores de riesgo psicosocial, el clima organizacional y las condiciones de convivencia laboral en el marco del SG-SST de la Clínica de Fracturas Vita S.A.S.</p>
+      </div>
+      <span class="confid-note">Encuesta anónima y confidencial — los datos se analizan de forma agregada</span>
+    </div>
+  </div>
+
+  <form id="survey-form">
+
+  <div class="block">
+    <div class="block-title">Datos de caracterización</div>
+    <div class="char-grid">
+      <div class="char-field">
+        <label>Área / Servicio</label>
+        <select name="area">
+          <option value="">Seleccione...</option>
+          <option>Urgencias</option>
+          <option>Hospitalización</option>
+          <option>Admisiones</option>
+          <option>Consulta externa</option>
+          <option>Quirofano</option>
+          <option>Imágenes Diagnóticas</option>
+          <option>Farmacia</option>
+          <option>Laboratorio</option>
+          <option>Administrativa</option>
+          <option>Financiera</option>
+          <option>Servicios Generales</option>
+          <option>Transporte Asistencial</option>
+          <option>Dirección General</option>
+        </select>
+      </div>
+      <div class="char-field">
+        <label>Tipo de vinculación</label>
+        <select name="vinculacion">
+          <option value="">Seleccione...</option>
+          <option>Trabajador/a</option>
+          <option>Contratista / Prestador de servicios</option>
+        </select>
+      </div>
+      <div class="char-field">
+        <label>Dirección</label>
+        <select name="Direccion">
+          <option value="">Seleccione...</option>
+          <option>Administrativa</option>
+          <option>Financiera</option>
+          <option>Cientifica</option>
+          <option>General</option>
+        </select>
+      </div>
+      <div class="char-field">
+        <label>Antigüedad en la institución</label>
+        <select name="antiguedad">
+          <option value="">Seleccione...</option>
+          <option>Menos de 6 meses</option>
+          <option>6 meses a 1 año</option>
+          <option>1 a 3 años</option>
+          <option>3 a 5 años</option>
+          <option>Más de 5 años</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-title">Instrucciones de diligenciamiento</div>
+    <ul class="instruc-list">
+      <li>Lea cuidadosamente cada afirmación antes de responder.</li>
+      <li>Seleccione la opción que mejor describe su experiencia en los <strong>últimos tres (3) meses</strong>.</li>
+      <li>Haga clic en el número de su elección (escala del 1 al 5).</li>
+      <li>Responda con total sinceridad. No deje preguntas cerradas sin responder.</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <div class="block-title">Escala de respuesta</div>
+    <div class="scale-bar">
+      <div class="scale-item s1"><span class="num">1</span>Totalmente en desacuerdo</div>
+      <div class="scale-item s2"><span class="num">2</span>En desacuerdo</div>
+      <div class="scale-item s3"><span class="num">3</span>Neutro</div>
+      <div class="scale-item s4"><span class="num">4</span>De acuerdo</div>
+      <div class="scale-item s5"><span class="num">5</span>Totalmente de acuerdo</div>
+    </div>
+  </div>
+
+  <!-- SECCIÓN I -->
+  <div class="section-hdr s-azul">
+    <div class="num">I</div>
+    <div class="info"><div class="title">Clima organizacional y satisfacción laboral</div><div class="ref">Preguntas 1 – 5</div></div>
+  </div>
+
+  <div class="q-card" id="card-q1">
+    <div class="q-top"><div class="q-num-label">Pregunta 1</div><div class="q-text">Me siento satisfecho/a con el trabajo que realizo en la Clínica de Fracturas Vita S.A.S.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q1" id="q1_1" value="1" required><label for="q1_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q1" id="q1_2" value="2"><label for="q1_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q1" id="q1_3" value="3"><label for="q1_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q1" id="q1_4" value="4"><label for="q1_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q1" id="q1_5" value="5"><label for="q1_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q2">
+    <div class="q-top"><div class="q-num-label">Pregunta 2</div><div class="q-text">Las condiciones físicas del lugar de trabajo son adecuadas para desempeñar mis funciones.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q2" id="q2_1" value="1" required><label for="q2_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q2" id="q2_2" value="2"><label for="q2_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q2" id="q2_3" value="3"><label for="q2_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q2" id="q2_4" value="4"><label for="q2_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q2" id="q2_5" value="5"><label for="q2_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q3">
+    <div class="q-top"><div class="q-num-label">Pregunta 3</div><div class="q-text">La institución reconoce y valora el esfuerzo y los resultados de mi trabajo.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q3" id="q3_1" value="1" required><label for="q3_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q3" id="q3_2" value="2"><label for="q3_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q3" id="q3_3" value="3"><label for="q3_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q3" id="q3_4" value="4"><label for="q3_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q3" id="q3_5" value="5"><label for="q3_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q4">
+    <div class="q-top"><div class="q-num-label">Pregunta 4</div><div class="q-text">Me siento motivado/a para continuar trabajando en esta institución.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q4" id="q4_1" value="1" required><label for="q4_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q4" id="q4_2" value="2"><label for="q4_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q4" id="q4_3" value="3"><label for="q4_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q4" id="q4_4" value="4"><label for="q4_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q4" id="q4_5" value="5"><label for="q4_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q5">
+    <div class="q-top"><div class="q-num-label">Pregunta 5</div><div class="q-text">Siento que en la clínica se reconoce mi potencial y se me brindan espacios para aprender.</div></div> 
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q5" id="q5_1" value="1" required><label for="q5_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q5" id="q5_2" value="2"><label for="q5_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q5" id="q5_3" value="3"><label for="q5_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q5" id="q5_4" value="4"><label for="q5_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q5" id="q5_5" value="5"><label for="q5_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 1</div>
+    <div class="q-text">¿Qué acciones realizas diariamente para asegurar que tu desempeño mantenga los estándares de calidad que la clínica representa?</div>
+    <textarea name="abierta1" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 2</div>
+    <div class="q-text">Si el entorno te genera malestar, ¿estás reportando las fallas a tiempo o permites que el descuido de otros afecte tu propia proactividad?</div>
+    <textarea name="abierta2" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 3</div>
+    <div class="q-text">¿Sueles reconocer el buen trabajo de tus compañeros y líderes, o esperas validación externa sin alimentar una cultura de gratitud?</div>
+    <textarea name="abierta3" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 4</div>
+    <div class="q-text">En los momentos de baja motivación, ¿buscos soluciones y nuevos retos dentro de la clínica o permites que tu actitud influya en el equipo?</div>
+    <textarea name="abierta4" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 5</div>
+    <div class="q-text">¿Buscas activamente actualizar tus conocimientos en los protocolos de la clínica o esperas a que la institución asigne capacitaciones?</div>
+    <textarea name="abierta5" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <!-- SECCIÓN II -->
+  <div class="section-hdr s-celeste">
+    <div class="num">II</div>
+    <div class="info"><div class="title">Factores de riesgo psicosocial — carga y estrés laboral</div><div class="ref">Preguntas 6 – 9 · Res. 2646/2008</div></div>
+  </div>
+
+  <div class="q-card" id="card-q6">
+    <div class="q-top"><div class="q-num-label">Pregunta 6</div><div class="q-norm-ref">Res. 2646/2008 — demandas emocionales</div><div class="q-text">El nivel de estrés que experimento en mi trabajo no afecta negativamente mi salud ni mi vida personal.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q6" id="q6_1" value="1" required><label for="q6_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q6" id="q6_2" value="2"><label for="q6_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q6" id="q6_3" value="3"><label for="q6_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q6" id="q6_4" value="4"><label for="q6_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q6" id="q6_5" value="5"><label for="q6_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q7">
+    <div class="q-top"><div class="q-num-label">Pregunta 7</div><div class="q-norm-ref">Res. 2646/2008 — claridad de rol</div><div class="q-text">Conozco claramente las funciones, responsabilidades y metas que corresponden a mi cargo.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q7" id="q7_1" value="1" required><label for="q7_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q7" id="q7_2" value="2"><label for="q7_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q7" id="q7_3" value="3"><label for="q7_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q7" id="q7_4" value="4"><label for="q7_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q7" id="q7_5" value="5"><label for="q7_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q8">
+    <div class="q-top"><div class="q-num-label">Pregunta 8</div><div class="q-norm-ref">Res. 2646/2008 — autonomía y control</div><div class="q-text">Tengo la autonomía necesaria para tomar decisiones relacionadas con mi trabajo sin interferencias innecesarias.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q8" id="q8_1" value="1" required><label for="q8_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q8" id="q8_2" value="2"><label for="q8_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q8" id="q8_3" value="3"><label for="q8_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q8" id="q8_4" value="4"><label for="q8_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q8" id="q8_5" value="5"><label for="q8_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q9">
+    <div class="q-top"><div class="q-num-label">Pregunta 9</div><div class="q-norm-ref">Res. 2646/2008 — factores intralaborales</div><div class="q-text">La cantidad de trabajo asignada es razonable y puedo cumplirla dentro de mi jornada laboral habitual.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q9" id="q9_1" value="1" required><label for="q9_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q9" id="q9_2" value="2"><label for="q9_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q9" id="q9_3" value="3"><label for="q9_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q9" id="q9_4" value="4"><label for="q9_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q9" id="q9_5" value="5"><label for="q9_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 6</div>
+    <div class="q-text">¿Establezco límites saludables y utilizo pausas activas, o permito que el estrés acumulado dicte mi trato hacia los demás y autocuidado?</div>
+    <textarea name="abierta6" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 7</div>
+    <div class="q-text">Ante una duda sobre mis funciones, ¿busco proactivamente claridad con mi líder o prefiero asumir tareas por intuición?</div>
+    <textarea name="abierta7" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 8</div>
+    <div class="q-text">¿Tomo decisiones basadas en los protocolos de la clínica o espero siempre una instrucción directa por temor a la responsabilidad?</div>
+    <textarea name="abierta8" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 9</div>
+    <div class="q-text">¿Gestiono mis tiempos de forma eficiente o permito distracciones que dilatan mis tareas, afectando el flujo de trabajo del equipo?</div>
+    <textarea name="abierta9" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <!-- SECCIÓN III -->
+  <div class="section-hdr s-indigo">
+    <div class="num">III</div>
+    <div class="info"><div class="title">Liderazgo y comunicación organizacional</div><div class="ref">Preguntas 10 – 13</div></div>
+  </div>
+
+  <div class="q-card" id="card-q10">
+    <div class="q-top"><div class="q-num-label">Pregunta 10</div><div class="q-text">Mi líder promueve la participación del equipo en la toma de decisiones que nos afectan.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q10" id="q10_1" value="1" required><label for="q10_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q10" id="q10_2" value="2"><label for="q10_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q10" id="q10_3" value="3"><label for="q10_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q10" id="q10_4" value="4"><label for="q10_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q10" id="q10_5" value="5"><label for="q10_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q11">
+    <div class="q-top"><div class="q-num-label">Pregunta 11</div><div class="q-text">La institución me mantiene informado/a sobre cambios, procesos y decisiones que afectan mi trabajo.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q11" id="q11_1" value="1" required><label for="q11_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q11" id="q11_2" value="2"><label for="q11_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q11" id="q11_3" value="3"><label for="q11_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q11" id="q11_4" value="4"><label for="q11_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q11" id="q11_5" value="5"><label for="q11_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q12">
+    <div class="q-top"><div class="q-num-label">Pregunta 12</div><div class="q-text">Cuando planteo inquietudes o sugerencias a mis superiores, siento que son escuchadas y consideradas.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q12" id="q12_1" value="1" required><label for="q12_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q12" id="q12_2" value="2"><label for="q12_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q12" id="q12_3" value="3"><label for="q12_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q12" id="q12_4" value="4"><label for="q12_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q12" id="q12_5" value="5"><label for="q12_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q13">
+    <div class="q-top"><div class="q-num-label">Pregunta 13</div><div class="q-norm-ref">Ley 1010/2006 — ambiente de convivencia</div><div class="q-text">Mi jefe inmediato o líder de área se comunica de manera clara, respetuosa y oportuna con el equipo.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q13" id="q13_1" value="1" required><label for="q13_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q13" id="q13_2" value="2"><label for="q13_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q13" id="q13_3" value="3"><label for="q13_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q13" id="q13_4" value="4"><label for="q13_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q13" id="q13_5" value="5"><label for="q13_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 10</div>
+    <div class="q-text">¿Propongo ideas constructivas y participo en los espacios de diálogo?</div>
+    <textarea name="abierta10" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 11</div>
+    <div class="q-text">¿Consulto regularmente los canales oficiales (carteleras, correos y asistencias a reuniones)?</div>
+    <textarea name="abierta11" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 12</div>
+    <div class="q-text">¿Al proponer algo, lo hago con argumentos y respeto buscando una solución común?</div>
+    <textarea name="abierta12" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 13</div>
+    <div class="q-text">¿Practico la escucha activa y confirmo que entendí las instrucciones, o asumo la información evitando preguntar?</div>
+    <textarea name="abierta13" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <!-- SECCIÓN IV -->
+  <div class="section-hdr s-marino">
+    <div class="num">IV</div>
+    <div class="info"><div class="title">Convivencia laboral y prevención del acoso</div><div class="ref">Preguntas 14 – 17 · Ley 1010/2006</div></div>
+  </div>
+
+  <div class="q-card" id="card-q14">
+    <div class="q-top"><div class="q-num-label">Pregunta 14</div><div class="q-norm-ref">Ley 1010/2006 — acoso laboral</div><div class="q-text">En mi lugar de trabajo no he presenciado ni experimentado conductas de intimidación, humillación o acoso.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q14" id="q14_1" value="1" required><label for="q14_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q14" id="q14_2" value="2"><label for="q14_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q14" id="q14_3" value="3"><label for="q14_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q14" id="q14_4" value="4"><label for="q14_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q14" id="q14_5" value="5"><label for="q14_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q15">
+    <div class="q-top"><div class="q-num-label">Pregunta 15</div><div class="q-norm-ref">Res. 652 y 1356/2012 — Comité de Convivencia</div><div class="q-text">Conozco la existencia del Comité de Convivencia Laboral y sé cómo acceder a él en caso de necesitarlo.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q15" id="q15_1" value="1" required><label for="q15_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q15" id="q15_2" value="2"><label for="q15_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q15" id="q15_3" value="3"><label for="q15_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q15" id="q15_4" value="4"><label for="q15_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q15" id="q15_5" value="5"><label for="q15_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q16">
+    <div class="q-top"><div class="q-num-label">Pregunta 16</div><div class="q-norm-ref">Res. 652 y 1356/2012 — efectividad</div><div class="q-text">Considero que el Comité de Convivencia Laboral es un mecanismo efectivo para la prevención de conflictos.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q16" id="q16_1" value="1" required><label for="q16_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q16" id="q16_2" value="2"><label for="q16_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q16" id="q16_3" value="3"><label for="q16_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q16" id="q16_4" value="4"><label for="q16_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q16" id="q16_5" value="5"><label for="q16_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q17">
+    <div class="q-top"><div class="q-num-label">Pregunta 17</div><div class="q-norm-ref">Ley 1010/2006 — ambiente de convivencia</div><div class="q-text">Las relaciones entre compañeros/as de trabajo en mi área son respetuosas y colaborativas.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q17" id="q17_1" value="1" required><label for="q17_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q17" id="q17_2" value="2"><label for="q17_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q17" id="q17_3" value="3"><label for="q17_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q17" id="q17_4" value="4"><label for="q17_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q17" id="q17_5" value="5"><label for="q17_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 14</div>
+    <div class="q-text">¿Soy consciente de que mi lenguaje o bromas podrían incomodar a otros y trato a todos con dignidad?</div>
+    <textarea name="abierta14" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 15</div>
+    <div class="q-text">¿Me he tomado el tiempo de leer el reglamento o manual de convivencia para informarme sobre mis derechos?</div>
+    <textarea name="abierta15" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 16</div>
+    <div class="q-text">¿Confío en los procesos institucionales y aporto testimonios honestos cuando se requieren?</div>
+    <textarea name="abierta16" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 17</div>
+    <div class="q-text">¿Soy una persona que facilita el trabajo en equipo y el apoyo mutuo?</div>
+    <textarea name="abierta17" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <!-- SECCIÓN V -->
+  <div class="section-hdr s-azul">
+    <div class="num">V</div>
+    <div class="info"><div class="title">Bienestar del trabajador y SG-SST</div><div class="ref">Preguntas 18 – 20 · Decreto 1072/2015</div></div>
+  </div>
+
+  <div class="q-card" id="card-q18">
+    <div class="q-top"><div class="q-num-label">Pregunta 18</div><div class="q-norm-ref">Decreto 1072/2015 — SG-SST</div><div class="q-text">He recibido capacitación sobre riesgos psicosociales, manejo del estrés o salud mental en el último año.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q18" id="q18_1" value="1" required><label for="q18_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q18" id="q18_2" value="2"><label for="q18_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q18" id="q18_3" value="3"><label for="q18_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q18" id="q18_4" value="4"><label for="q18_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q18" id="q18_5" value="5"><label for="q18_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q19">
+    <div class="q-top"><div class="q-num-label">Pregunta 19</div><div class="q-norm-ref">Decreto 1072/2015 — equilibrio</div><div class="q-text">Siento que puedo mantener un equilibrio adecuado entre mis responsabilidades laborales y mi vida personal.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q19" id="q19_1" value="1" required><label for="q19_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q19" id="q19_2" value="2"><label for="q19_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q19" id="q19_3" value="3"><label for="q19_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q19" id="q19_4" value="4"><label for="q19_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q19" id="q19_5" value="5"><label for="q19_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q20">
+    <div class="q-top"><div class="q-num-label">Pregunta 20</div><div class="q-norm-ref">Decreto 1072/2015 — bienestar</div><div class="q-text">La institución ofrece programas o espacios de bienestar que contribuyen a mi salud física y mental.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q20" id="q20_1" value="1" required><label for="q20_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q20" id="q20_2" value="2"><label for="q20_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q20" id="q20_3" value="3"><label for="q20_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q20" id="q20_4" value="4"><label for="q20_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q20" id="q20_5" value="5"><label for="q20_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 18</div>
+    <div class="q-text">¿Aplico activamente las herramientas de manejo emocional aprendidas en las capacitaciones?</div>
+    <textarea name="abierta18" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 19</div>
+    <div class="q-text">¿Respeto mi tiempo de descanso desconectándome realmente del trabajo?</div>
+    <textarea name="abierta19" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta 20</div>
+    <div class="q-text">¿Participo con entusiasmo en las actividades de bienestar propuestas o elijo no asistir?</div>
+    <textarea name="abierta20" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <!-- SECCIÓN VI -->
+  <div class="section-hdr s-azul">
+    <div class="num">VI</div>
+    <div class="info"><div class="title">Factores Extralaborales de influencia en el ambiente</div><div class="ref">Preguntas 21 – 30 · Decreto 1072/2015</div></div>
+  </div>
+
+  <div class="q-card" id="card-q21">
+    <div class="q-top"><div class="q-num-label">Pregunta 21</div><div class="q-norm-ref">Res. 2646/2008 — Relaciones Familiares</div><div class="q-text">En mi entorno familiar encuentro apoyo para cumplir con mis responsabilidades laborales.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q21" id="q21_1" value="1" required><label for="q21_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q21" id="q21_2" value="2"><label for="q21_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q21" id="q21_3" value="3"><label for="q21_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q21" id="q21_4" value="4"><label for="q21_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q21" id="q21_5" value="5"><label for="q21_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q22">
+    <div class="q-top"><div class="q-num-label">Pregunta 22</div><div class="q-norm-ref">Res. 2646/2008 — Situación Familiar</div><div class="q-text">Las situaciones o conflictos en mi hogar afectan mi desempeño en el trabajo.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q22" id="q22_1" value="1" required><label for="q22_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q22" id="q22_2" value="2"><label for="q22_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q22" id="q22_3" value="3"><label for="q22_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q22" id="q22_4" value="4"><label for="q22_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q22" id="q22_5" value="5"><label for="q22_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q23">
+    <div class="q-top"><div class="q-num-label">Pregunta 23</div><div class="q-norm-ref">Res. 2646/2008 — Vivienda y Entorno</div><div class="q-text">Me siento seguro(a) en el lugar donde vivo.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q23" id="q23_1" value="1" required><label for="q23_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q23" id="q23_2" value="2"><label for="q23_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q23" id="q23_3" value="3"><label for="q23_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q23" id="q23_4" value="4"><label for="q23_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q23" id="q23_5" value="5"><label for="q23_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q24">
+    <div class="q-top"><div class="q-num-label">Pregunta 24</div><div class="q-norm-ref">Res. 2646/2008 — Desplazamiento</div><div class="q-text">Me siento seguro(a) durante el trayecto entre mi hogar y el trabajo.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q24" id="q24_1" value="1" required><label for="q24_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q24" id="q24_2" value="2"><label for="q24_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q24" id="q24_3" value="3"><label for="q24_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q24" id="q24_4" value="4"><label for="q24_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q24" id="q24_5" value="5"><label for="q24_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q25">
+    <div class="q-top"><div class="q-num-label">Pregunta 25</div><div class="q-norm-ref">Res. 2646/2008 — Tiempo de Desplazamiento</div><div class="q-text">El tiempo que tardo en desplazarme al trabajo afecta mi estado de ánimo.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q25" id="q25_1" value="1" required><label for="q25_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q25" id="q25_2" value="2"><label for="q25_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q25" id="q25_3" value="3"><label for="q25_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q25" id="q25_4" value="4"><label for="q25_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q25" id="q25_5" value="5"><label for="q25_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q26">
+    <div class="q-top"><div class="q-num-label">Pregunta 26</div><div class="q-norm-ref">Res. 2646/2008 — Medios de Transporte</div><div class="q-text">Las condiciones de transporte que utilizo impactan mi bienestar diario.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q26" id="q26_1" value="1" required><label for="q26_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q26" id="q26_2" value="2"><label for="q26_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q26" id="q26_3" value="3"><label for="q26_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q26" id="q26_4" value="4"><label for="q26_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q26" id="q26_5" value="5"><label for="q26_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q27">
+    <div class="q-top"><div class="q-num-label">Pregunta 27</div><div class="q-norm-ref">Res. 2646/2008 — Situación Económica</div><div class="q-text">Las preocupaciones económicas afectan mi concentración en el trabajo.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q27" id="q27_1" value="1" required><label for="q27_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q27" id="q27_2" value="2"><label for="q27_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q27" id="q27_3" value="3"><label for="q27_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q27" id="q27_4" value="4"><label for="q27_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q27" id="q27_5" value="5"><label for="q27_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q28">
+    <div class="q-top"><div class="q-num-label">Pregunta 28</div><div class="q-norm-ref">Res. 2646/2008 — Estado de Salud</div><div class="q-text">Mi estado de salud física y emocional influye en mi desempeño laboral.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q28" id="q28_1" value="1" required><label for="q28_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q28" id="q28_2" value="2"><label for="q28_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q28" id="q28_3" value="3"><label for="q28_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q28" id="q28_4" value="4"><label for="q28_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q28" id="q28_5" value="5"><label for="q28_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q29">
+    <div class="q-top"><div class="q-num-label">Pregunta 29</div><div class="q-norm-ref">Factor: Higiene del Sueño</div><div class="q-text">Duermo lo suficiente para rendir adecuadamente en mi jornada laboral.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q29" id="q29_1" value="1" required><label for="q29_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q29" id="q29_2" value="2"><label for="q29_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q29" id="q29_3" value="3"><label for="q29_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q29" id="q29_4" value="4"><label for="q29_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q29" id="q29_5" value="5"><label for="q29_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="q-card" id="card-q30">
+    <div class="q-top"><div class="q-num-label">Pregunta 30</div><div class="q-norm-ref">Res. 2646/2008 — Equilibrio Vida-Trabajo</div><div class="q-text">Logro mantener un equilibrio adecuado entre mi vida personal y laboral.</div></div>
+    <div class="likert-row">
+      <div class="likert-opt"><input type="radio" name="q30" id="q30_1" value="1" required><label for="q30_1"><span class="lv">1</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q30" id="q30_2" value="2"><label for="q30_2"><span class="lv">2</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q30" id="q30_3" value="3"><label for="q30_3"><span class="lv">3</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q30" id="q30_4" value="4"><label for="q30_4"><span class="lv">4</span><span class="radio-circle"></span></label></div>
+      <div class="likert-opt"><input type="radio" name="q30" id="q30_5" value="5"><label for="q30_5"><span class="lv">5</span><span class="radio-circle"></span></label></div>
+    </div>
+  </div>
+
+  <div class="open-card">
+    <div class="q-num-label">Pregunta abierta extralaboral</div>
+    <div class="q-text">¿Cómo consideras que tu red de apoyo familiar y hábitos de descanso influyen en tu capacidad para enfrentar los retos diarios?</div>
+    <textarea name="abierta_extralaboral" placeholder="Escriba su respuesta aquí..."></textarea>
+  </div>
+
+  <!-- ENVIAR -->
+  <div class="submit-wrap">
+    <p class="progress-label" id="progress-label">0 de 30 preguntas respondidas</p>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-bar"></div></div>
+    <button type="submit" id="submit-btn">Enviar encuesta</button>
+    <div id="msg-ok">✅ ¡Gracias! Sus respuestas han sido registradas correctamente.</div>
+    <div id="msg-err">⚠️ Ocurrió un error al enviar. Por favor verifique su conexión e intente nuevamente.</div>
+  </div>
+
+  </form>
+
+  <div class="footer">
+    <strong>Clínica de Fracturas Vita S.A.S</strong> — SG-SST<br>
+    Resolución 2646/2008 · Ley 1010/2006 · Ley 1581/2012 (Habeas Data)
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz7cGGKdKFMVpSn_--q55hUMPHktt1qcdGhck4azPOQ1ogh4SOMmxEBaFYPFMwRtfCgrw/exec";
+  const totalQ = 30;
+
+  function updateProgress() {
+    let answered = 0;
+    for (let i = 1; i <= totalQ; i++) {
+      if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+    }
+    const pct = Math.round((answered / totalQ) * 100);
+    document.getElementById('progress-bar').style.width = pct + '%';
+    document.getElementById('progress-label').textContent = `${answered} de ${totalQ} preguntas respondidas`;
+  }
+
+  document.querySelectorAll('input[type=radio]').forEach(r => {
+    r.addEventListener('change', () => {
+      document.getElementById('card-' + r.name).classList.add('answered');
+      updateProgress();
+    });
+  });
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+document.getElementById('survey-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+
+    // Validar que todas las 30 preguntas Likert estén respondidas
+    let unanswered = [];
+    for (let i = 1; i <= totalQ; i++) {
+      if (!document.querySelector(`input[name="q${i}"]:checked`)) unanswered.push(i);
+    }
+    if (unanswered.length > 0) {
+      showToast(`Faltan ${unanswered.length} pregunta(s) por responder`);
+      const firstCard = document.getElementById('card-q' + unanswered[0]);
+      firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      firstCard.style.borderColor = '#DC2626';
+      setTimeout(() => firstCard.style.borderColor = '', 3000);
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+
+    const fd = new FormData(this);
+
+    // 1. Datos demográficos / Caracterización
+    const data = {
+      fecha: new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' }),
+      area: fd.get('area') || '',
+      vinculacion: fd.get('vinculacion') || '',
+      Direccion: fd.get('Direccion') || '',
+      antiguedad: fd.get('antiguedad') || '',
+    };
+
+    // 2. Diccionario con el texto completo de las 30 preguntas Likert
+    const preguntas = {
+      q1: "Satisfacción laboral general",
+      q2: "Condiciones físicas del trabajo",
+      q3: "Reconocimiento institucional",
+      q4: "Motivación para continuar",
+      q5: "Desarrollo y espacios de aprendizaje",
+      q6: "Nivel de estrés",
+      q7: "Claridad de funciones",
+      q8: "Autonomía laboral",
+      q9: "Carga de trabajo razonable",
+      q10: "Participación en decisiones",
+      q11: "Comunicación institucional",
+      q12: "Escucha de inquietudes",
+      q13: "Comunicación del líder",
+      q14: "Ausencia de acoso laboral",
+      q15: "Conocimiento del Comité Convivencia",
+      q16: "Efectividad del Comité",
+      q17: "Relaciones entre compañeros",
+      q18: "Capacitación en riesgo psicosocial",
+      q19: "Equilibrio vida-trabajo",
+      q20: "Programa de bienestar",
+      q21: "Apoyo familiar",
+      q22: "Afectación por conflictos del hogar",
+      q23: "Seguridad en la vivienda",
+      q24: "Seguridad en el trayecto al trabajo",
+      q25: "Impacto del tiempo de desplazamiento",
+      q26: "Condiciones de transporte",
+      q27: "Preocupaciones económicas",
+      q28: "Influencia del estado de salud",
+      q29: "Higiene del sueño",
+      q30: "Equilibrio vida-trabajo extralaboral"
+    };
+
+    // 3. Recorrido de preguntas
+    for (const [key, label] of Object.entries(preguntas)) {
+      const num = parseInt(key.replace("q", ""), 10);
+      
+      // Guarda la calificacion Likert (1 a 5) de todas las preguntas (1 a 30)
+      data[label] = fd.get(key) || "";
+
+      // Solo crea el campo "Comentario - ..." si la pregunta esta entre la 1 y la 20
+      if (num <= 20) {
+        data["Comentario - " + label] = fd.get("abierta" + num) || "";
+      }
+    }
+
+    // Comentario único general de la sección extralaboral
+    data["Comentario - Factores Extralaborales"] = fd.get("abierta_extralaboral") || "";
+
+    try {
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      document.getElementById('msg-ok').style.display = 'block';
+      document.getElementById('msg-err').style.display = 'none';
+      document.getElementById('survey-form').style.opacity = '0.4';
+      document.getElementById('survey-form').style.pointerEvents = 'none';
+      btn.textContent = '✓ Enviada';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      document.getElementById('msg-err').style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Enviar encuesta';
+    }
+  });
+</script>
+</body>
+</html>
